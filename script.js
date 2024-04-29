@@ -12,6 +12,16 @@ let correctAnswer = '',
   totalQuestion = 10;
 
 //answer checking
+
+async function landQuestion() {
+  const APIUrl =
+    'https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple';
+  const result = await fetch(`${APIUrl}`);
+  const data = await result.json();
+  _result.innerHTML = '';
+  showQuestion(data.results[0]);
+  //console.log(data.results[0]);
+}
 function eventListeners() {
   _checkBtn.addEventListener('click', checkAnswer);
   _playAgainBtn.addEventListener('click', restartQuiz);
@@ -23,15 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   _totalQuestion.textContent = totalQuestion;
   _correctScore.textContent = correctScore;
 });
-async function landQuestion() {
-  const APIUrl =
-    'https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple';
-  const result = await fetch(`${APIUrl}`);
-  const data = await result.json();
-  showQuestion(data.results[0]);
-  _result.innerHTML = '';
-  //console.log(data.results[0]);
-}
+
 //Display question and options
 function showQuestion(data) {
   _checkBtn.disabled = false;
@@ -47,7 +49,7 @@ function showQuestion(data) {
   ); //Inserting correct asnwer in random position in the options list
   //console.log(optionsList);
   // console.log(correctAnswer);
-  _question.innerHTML = `${data.question}`; //<br> <span class="category">${data.category}</span>;
+  _question.innerHTML = `${data.question}`;
   _options.innerHTML = `<ul>${optionsList
     .map(
       (option, index) => `<li> ${index + 1}. <span> ${option} </span> </li>
